@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Unique Cranes ERP (Estimation Engine)
 
-## Getting Started
+A full-stack, enterprise-grade Next.js application designed to manage the estimation, drawing, and document generation workflows for crane manufacturing. 
 
-First, run the development server:
+This platform streamlines the entire sales-to-engineering process, enabling estimators to quickly calculate costs based on dynamic requirements, automatically generate GA (General Arrangement) drawings as SVGs, and seamlessly compile PDF quotations and job cards.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🚀 Key Features
+
+*   **Intelligent Estimation Engine**: Computes highly detailed breakdowns (Main Hoist, Aux Hoist, CT, LT) evaluating dynamic formulas across structural, electrical, mechanical, and painting costs.
+*   **Dynamic SVG Drawing Generator**: An algorithmic drawing engine that renders complex crane assemblies (span, hook lifts, wheels, trolley) dynamically as scalable vector graphics based on precise mathematical parameters.
+*   **Automated PDF Document Generation**: Uses headless Chromium (Puppeteer) to seamlessly convert dynamically generated web templates (Quotations, Job Cards, Missing Info) into high-fidelity PDFs.
+*   **Multi-Role Authentication & Access Control**: Secure Role-Based Access Control (RBAC) via Supabase for Admins, Estimators, and Sales with edge-level route protection.
+*   **Real-time Collaboration & History**: Full audit trailing and versioning of estimations and generated documents synced instantly using Supabase real-time subscriptions.
+
+## 🛠️ Tech Stack
+
+*   **Framework:** [Next.js 14](https://nextjs.org/) (App Router)
+*   **Language:** TypeScript
+*   **Styling:** [Tailwind CSS](https://tailwindcss.com/) & [shadcn/ui](https://ui.shadcn.com/)
+*   **Database & Auth:** [Supabase](https://supabase.com/) (PostgreSQL, Row Level Security, Storage)
+*   **State Management:** React Query & Zustand
+*   **PDF Engine:** Puppeteer / `puppeteer-core` with `@sparticuz/chromium-min`
+*   **Icons:** Lucide React
+
+## 📂 Project Architecture
+
+```
+unique-cranes-erp/
+├── app/                  # Next.js App Router (Pages, Layouts, API Routes)
+│   ├── (auth)/           # Authentication flows (Login, Forgot Password)
+│   ├── (admin)/          # Admin Dashboard & Settings
+│   ├── (app)/            # Core ERP features (Jobs, Estimations, Drawings)
+│   └── api/              # Serverless route handlers (PDF Generation, etc.)
+├── components/           # Reusable React components
+│   ├── ui/               # shadcn/ui generic components
+│   └── ...               # Domain specific components (Forms, Tables)
+├── lib/                  # Core Business Logic & Utilities
+│   ├── engines/          # Advanced algorithmic engines
+│   │   ├── estimation/   # Cost calculation logic
+│   │   └── drawing/      # SVG generation logic
+│   ├── pdf/              # Puppeteer PDF generation templates & instances
+│   └── supabase/         # Supabase client singletons (Server & Client)
+├── public/               # Static assets & sample files
+└── supabase/             # Database migrations & seed files
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🏗️ Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Prerequisites
+*   Node.js 18+
+*   npm or yarn
+*   A Supabase project (for Postgres DB and Authentication)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Installation
 
-## Learn More
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/steellunknown-ui/unique-cranes-estimation.git
+   cd unique-cranes-estimation
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Set up Environment Variables:**
+   Rename `.env.example` to `.env.local` and add your Supabase credentials:
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. **Run Database Migrations (Optional/If applicable):**
+   ```bash
+   npx supabase db push
+   ```
 
-## Deploy on Vercel
+5. **Start the Development Server:**
+   ```bash
+   npm run dev
+   ```
+   The application will be available at `http://localhost:3000`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🛡️ Security
+All environment variables are securely handled. Hardcoded secrets are strictly avoided. Database interactions are secured with Postgres Row Level Security (RLS).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📄 License
+Internal Proprietary Software - Unique Industrial Handlers Pvt. Ltd.
